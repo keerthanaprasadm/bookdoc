@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Appointment Confirmed</title>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card {
+            background: #ffffff;
+            width: 100%;
+            max-width: 480px;
+            border-radius: 16px;
+            padding: 35px 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            text-align: center;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .success-icon {
+            font-size: 60px;
+            color: #2ecc71;
+            margin-bottom: 10px;
+        }
+
+        h2 {
+            color: #2ecc71;
+            margin-bottom: 5px;
+        }
+
+        .subtitle {
+            color: #555;
+            font-size: 15px;
+            margin-bottom: 25px;
+        }
+
+        .details {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 25px;
+            text-align: left;
+        }
+
+        .details p {
+            margin: 10px 0;
+            font-size: 15px;
+            color: #333;
+        }
+
+        .details span {
+            font-weight: 600;
+            color: #555;
+        }
+
+        .actions {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary {
+            background: #3498db;
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background: #2980b9;
+        }
+
+        .btn-secondary {
+            background: #95a5a6;
+            color: #fff;
+        }
+
+        .btn-secondary:hover {
+            background: #7f8c8d;
+        }
+
+        footer {
+            margin-top: 20px;
+            font-size: 13px;
+            color: #777;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="card">
+    <div class="success-icon">✔</div>
+
+    <h2>Appointment Confirmed</h2>
+    <p class="subtitle">
+        Your appointment has been successfully booked
+    </p>
+
+    <div class="details">
+        <p><span>Doctor:</span> {{ appointment.doctor.user.email }}</p>
+        <p><span>Date:</span> {{ appointment.date }}</p>
+        <p><span>Time:</span> {{ appointment.time }}</p>
+    </div>
+
+    <div class="actions">
+        <a href="{% url 'my_appointments' %}" class="btn btn-primary">
+            My Appointments
+        </a>
+
+        <a href="{% url 'doctor_list' %}" class="btn btn-secondary">
+            Book Another
+        </a>
+    </div>
+
+    <footer>
+        Please arrive 10 minutes early ⏰
+    </footer>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Doctor Dashboard</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background: #f4f7fb;
+            position: relative;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background-image: url("https://media.istockphoto.com/id/619636894/photo/hospital-corridor-and-doctor-as-a-blurred-defocused-background.jpg?s=612x612&w=0&k=20&c=TdoBrcOjOWPEshB0uHoDk2ecG_ySwWt1K0kf7O_jvkI=");
+            background-size: cover;
+            background-position: center;
+            filter: blur(8px);
+            transform: scale(1.1);
+            z-index: -1;
+        }
+
+        .dashboard-card {
+            border-radius: 16px;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+        }
+
+        .dashboard-header {
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            color: white;
+            border-radius: 16px;
+            padding: 35px;
+        }
+    </style>
+</head>
+
+<body>
+
+{% include 'partials/navbar.html' %}
+
+<div class="container py-5">
+
+    <!-- Header -->
+    <div class="dashboard-header mb-5">
+        <h3 class="mb-1">
+            Welcome, Dr. {{ request.user.get_full_name|default:request.user.username }}
+        </h3>
+        <p class="mb-0 opacity-75">
+            Your professional dashboard — manage patients & appointments
+        </p>
+    </div>
+
+    <!-- Cards -->
+    <div class="row g-4">
+
+        <!-- Appointments -->
+        <div class="col-md-6">
+            <div class="card dashboard-card p-4 h-100">
+                <h5 class="mb-2">Appointments</h5>
+                <p class="text-muted">
+                    View and manage patient appointments assigned to you.
+                </p>
+                <a href="{% url 'doctor_appointments' %}" class="btn btn-primary">
+                    View Appointments
+                </a>
+            </div>
+        </div>
+
+        <!-- Account Settings -->
+        <div class="col-md-6">
+            <div class="card dashboard-card p-4 h-100">
+                <h5 class="mb-3">Account Settings</h5>
+
+                <a href="{% url 'edit_doctor_profile' %}" class="btn btn-outline-primary mb-2">
+                    Edit Account (Username / Password)
+                </a>
+
+                <p class="text-muted small mt-2">
+                    Update your login credentials securely.
+                </p>
+            </div>
+        </div>
+
+        <!-- Doctor Profile Details -->
+        <div class="col-md-12">
+            <div class="card dashboard-card p-4">
+                <h5 class="mb-3">My Professional Profile</h5>
+
+                {% if request.user.doctorprofile %}
+                    <p><strong>Specialization:</strong>
+                        {{ request.user.doctorprofile.specialization|default:"Not added yet" }}
+                    </p>
+
+                    <p><strong>Experience:</strong>
+                        {{ request.user.doctorprofile.experience_years|default:"Not added yet" }}
+                        {% if request.user.doctorprofile.experience_years %} years{% endif %}
+                    </p>
+
+                    <p><strong>Consultation Fee:</strong>
+                        {% if request.user.doctorprofile.consultation_fee %}
+                            ₹{{ request.user.doctorprofile.consultation_fee }}
+                        {% else %}
+                            Not added yet
+                        {% endif %}
+                    </p>
+
+                    <p><strong>Bio:</strong><br>
+                        {{ request.user.doctorprofile.bio|default:"Not added yet" }}
+                    </p>
+                {% else %}
+                    <p class="text-muted">
+                        You have not added your professional profile details yet.
+                    </p>
+                {% endif %}
+
+                <a href="{% url 'doctor_profile_details' %}"
+                   class="btn btn-outline-primary mt-3">
+                    Add / Update Profile Details
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Logout Modal -->
+<div class="modal fade" id="logoutModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title">Confirm Logout</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+        Are you sure you want to logout?
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Cancel
+        </button>
+
+        <form method="post" action="{% url 'logout' %}">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-danger">
+            Logout
+          </button>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

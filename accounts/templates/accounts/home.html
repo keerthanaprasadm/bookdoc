@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Doctor Appointment System</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            height: 100vh;
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            background: 
+                linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)),
+                url("data:image/jpeg;base64,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");
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .glass-card {
+            width: 460px;
+            padding: 50px 45px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.92);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.35);
+            text-align: center;
+        }
+
+        .glass-card h1 {
+            margin-bottom: 10px;
+            font-size: 34px;
+            color: #1f2937;
+        }
+
+        .glass-card p {
+            font-size: 15px;
+            color: #4b5563;
+            margin-bottom: 35px;
+            line-height: 1.6;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 18px;
+        }
+
+        .btn {
+            padding: 14px 30px;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.25s ease;
+        }
+
+        .btn-login {
+            background: #4f46e5;
+            color: white;
+        }
+
+        .btn-signup {
+            background: #16a34a;
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            opacity: 0.95;
+        }
+
+        footer {
+            margin-top: 25px;
+            font-size: 12px;
+            color: #6b7280;
+        }
+
+        @media (max-width: 520px) {
+            .glass-card {
+                width: 90%;
+                padding: 40px 25px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="glass-card">
+    <h1>Doctor Appointment System</h1>
+
+    <p>
+        Book appointments effortlessly, manage schedules,
+        consult trusted doctors, and rate your experience —
+        all in one secure platform.
+    </p>
+
+    <div class="buttons">
+        <a href="{% url 'login' %}" class="btn btn-login">Login</a>
+        <a href="{% url 'signup' %}" class="btn btn-signup">Signup</a>
+    </div>
+
+    <footer>
+        © 2026 • Secure Healthcare Platform
+    </footer>
+</div>
+
+</body>
+</html>

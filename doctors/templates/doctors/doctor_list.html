@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Doctors | BookDoc</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 40px 15px;
+            position: relative;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Blurred background */
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background-image: url("https://images.unsplash.com/photo-1586773860418-d37222d8fce3");
+            background-size: cover;
+            background-position: center;
+            filter: blur(10px);
+            transform: scale(1.1);
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: auto;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 30px;
+            color: #0f172a;
+        }
+
+        /* Glass panel */
+        .glass {
+            background: rgba(255,255,255,0.92);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.12);
+        }
+
+        /* Grid */
+        .doctor-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+        }
+
+        /* Doctor Card */
+        .doctor-card {
+            background: white;
+            padding: 24px;
+            border-radius: 18px;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .doctor-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 18px 40px rgba(0,0,0,0.12);
+        }
+
+        .doctor-avatar {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: #0d6efd;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 16px;
+        }
+
+        .doctor-card p {
+            margin: 6px 0;
+            color: #374151;
+            font-size: 14px;
+        }
+
+        .doctor-card strong {
+            color: #111827;
+        }
+
+        .rating {
+            margin-top: 10px;
+            color: #f59e0b;
+            font-weight: 600;
+            font-size: 15px;
+        }
+
+        .book-btn {
+            display: inline-block;
+            margin-top: 18px;
+            padding: 10px 18px;
+            border-radius: 10px;
+            background: #0d6efd;
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .book-btn:hover {
+            background: #0b5ed7;
+        }
+
+        .empty {
+            text-align: center;
+            font-size: 16px;
+            color: #6b7280;
+            margin-top: 60px;
+        }
+
+        /* NEW: remove body padding effect from navbar */
+        .navbar-wrapper {
+            margin: -40px -15px 40px -15px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="navbar-wrapper">
+    {% include 'partials/navbar.html' %}
+</div>
+
+<div class="container">
+
+    <div class="glass">
+
+        <!-- Back Button -->
+        <div class="mb-4">
+            <a href="{% url 'patient_dashboard' %}" class="btn btn-outline-primary">
+                ← Back to Dashboard
+            </a>
+        </div>
+
+        <h2>Available Doctors</h2>
+
+        <!-- FILTER -->
+        <form method="get" class="row g-2 justify-content-center mb-4">
+            <div class="col-md-4">
+                <input type="text"
+                       name="specialization"
+                       value="{{ request.GET.specialization }}"
+                       class="form-control"
+                       placeholder="Search by specialization (e.g. Skin, Heart)">
+            </div>
+
+            <div class="col-md-2 d-grid">
+                <button class="btn btn-primary">Filter</button>
+            </div>
+
+            {% if request.GET.specialization %}
+            <div class="col-md-2 d-grid">
+                <a href="{% url 'doctor_list' %}" class="btn btn-outline-secondary">
+                    Clear
+                </a>
+            </div>
+            {% endif %}
+        </form>
+
+        {% if doctors %}
+            <div class="doctor-grid">
+                {% for doctor in doctors %}
+                    <div class="doctor-card">
+
+                        <div class="doctor-avatar">
+                            {{ doctor.user.first_name|default:doctor.user.email|slice:":1"|upper }}
+                        </div>
+
+                        <p>
+                            <strong>Name:</strong>
+                            {{ doctor.user.get_full_name|default:"Not Provided" }}
+                        </p>
+                        <p><strong>Email:</strong> {{ doctor.user.email }}</p>
+                        <p><strong>Specialization:</strong> {{ doctor.specialization }}</p>
+
+                        <p class="rating">
+                            ⭐ {{ doctor.average_rating|floatformat:1 }} / 5
+                        </p>
+
+                        {% if request.user.role == 'patient' %}
+                            <a href="{% url 'doctor_detail' doctor.id %}" class="book-btn">
+                                View Profile
+                            </a>
+                        {% endif %}
+
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="empty">
+                No doctors found.
+            </div>
+        {% endif %}
+
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

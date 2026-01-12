@@ -1,0 +1,78 @@
+{% load crispy_forms_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login | BookDoc</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            min-height: 100vh;
+            background: 
+                linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)),
+                url("https://i.pinimg.com/736x/af/11/f6/af11f6b8a6a903876c1d1cf0d37c392d.jpg")
+                no-repeat center center / cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .login-card {
+            width: 100%;
+            max-width: 450px;
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+            position: relative;
+        }
+
+        .brand {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #2563eb;
+        }
+
+        .back-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #2563eb;
+        }
+
+        .back-btn:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="login-card">
+
+    <!-- Back to home -->
+    <a href="/" class="back-btn">← Back to Home</a>
+
+    <div class="text-center mb-4 mt-2">
+        <div class="brand">🩺 BookDoc</div>
+        <p class="text-muted mb-0">Login to your account</p>
+    </div>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form|crispy }}
+
+        <button class="btn btn-success w-100 mt-3">
+            Login
+        </button>
+    </form>
+
+</div>
+
+</body>
+</html>

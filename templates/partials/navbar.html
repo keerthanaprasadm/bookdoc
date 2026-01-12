@@ -1,0 +1,122 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm compact-navbar">
+  <div class="container">
+
+    <!-- Brand -->
+    <a class="navbar-brand fw-bold d-flex align-items-center" href="/">
+      <span style="font-size: 22px;">🩺</span>
+      <span class="ms-2">BookDoc</span>
+    </a>
+
+    <!-- Mobile toggle -->
+    <button class="navbar-toggler" type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#mainNavbar">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Navbar links -->
+    <div class="collapse navbar-collapse" id="mainNavbar">
+      <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
+
+        {% if request.user.is_authenticated %}
+
+          {% if request.user.role == 'doctor' %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'doctor_dashboard' %}">
+                Dashboard
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'doctor_appointments' %}">
+                Appointments
+              </a>
+            </li>
+
+          {% elif request.user.role == 'patient' %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'patient_dashboard' %}">
+                Dashboard
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/doctors/">
+                Doctors
+              </a>
+            </li>
+          {% endif %}
+
+          <!-- User Dropdown -->
+          <li class="nav-item dropdown ms-lg-3">
+            <a class="nav-link dropdown-toggle fw-semibold"
+               href="#"
+               role="button"
+               data-bs-toggle="dropdown">
+              {{ request.user.get_full_name|default:request.user.username }}
+            </a>
+
+            <ul class="dropdown-menu dropdown-menu-end shadow">
+
+              <li>
+                <a class="dropdown-item" href="{% url 'edit_doctor_profile' %}">
+                  Edit Profile
+                </a>
+              </li>
+
+              <li><hr class="dropdown-divider"></li>
+
+              <li>
+                <button class="dropdown-item text-danger"
+                        data-bs-toggle="modal"
+                        data-bs-target="#logoutModal">
+                  Logout
+                </button>
+              </li>
+            </ul>
+          </li>
+
+        {% else %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'login' %}">Login</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'signup' %}">Signup</a>
+          </li>
+        {% endif %}
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+<div class="modal fade" id="logoutModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title">Confirm Logout</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+        Are you sure you want to logout?
+      </div>
+
+      <div class="modal-footer">
+        <button type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal">
+          Cancel
+        </button>
+
+        <form method="post" action="{% url 'logout' %}">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-danger">
+            Logout
+          </button>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>
