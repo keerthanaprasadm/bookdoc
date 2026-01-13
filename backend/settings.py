@@ -26,7 +26,13 @@ SECRET_KEY = 'django-insecure-peeno*i=un^27q%q#(ljhh=_$%_5&kixbt$r)aat84+$mc^wb_
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+
+ALLOWED_HOSTS = [
+    'keerthanaprasadm.pythonanywhere.com',
+    'localhost',
+    '127.0.0.1'
+]
+
 
 
 
@@ -59,6 +65,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
+
 
 
 ROOT_URLCONF = 'backend.urls'
