@@ -3,10 +3,8 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('accounts.urls')),
-    path('', include('accounts.urls')),
-    path('', include('doctors.urls')),
-    path('appointments/', include('appointments.urls')),
-    
 
+    path('', include('accounts.urls')),          # login / signup / home
+    path('doctors/', include('doctors.urls')),  # doctor module
+    path('appointments/', include('appointments.urls')),
 ]

@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import signup_view, logout_view,home,dashboard_redirect,admin_dashboard,doctor_dashboard,patient_dashboard,edit_doctor_profile,edit_patient_profile
+from .views import signup_view, logout_view,home,dashboard_redirect,doctor_dashboard,patient_dashboard,edit_doctor_profile,edit_patient_profile
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
@@ -12,7 +12,7 @@ urlpatterns = [
     ),
     path('logout/', logout_view, name='logout'), 
     path('dashboard/', dashboard_redirect, name='dashboard'),
-   path('admin/dashboard/', admin_dashboard, name='admin_dashboard'),
+#    path('admin/dashboard/', admin_dashboard, name='admin_dashboard'),
     path('doctor/dashboard/', doctor_dashboard, name='doctor_dashboard'),
     path('patient/dashboard/', patient_dashboard, name='patient_dashboard'),
     path('doctor/profile/edit/',edit_doctor_profile, name='edit_doctor_profile'),

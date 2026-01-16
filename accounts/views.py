@@ -40,11 +40,11 @@ def dashboard_redirect(request):
 # ------------------------
 # ADMIN DASHBOARD
 # ------------------------
-@login_required
-def admin_dashboard(request):
-    if request.user.role != 'admin':
-        return redirect('login')
-    return render(request, 'accounts/admin_dashboard.html')
+# @login_required
+# def admin_dashboard(request):
+#     if request.user.role != 'admin':
+#         return redirect('login')
+#     return render(request, 'accounts/admin_dashboard.html')
 
 # ------------------------
 # DOCTOR DASHBOARD
@@ -74,7 +74,7 @@ def logout_view(request):
     """
     logout(request)
 
-    # 🔥 VERY IMPORTANT: clear message storage
+   
     storage = messages.get_messages(request)
     for _ in storage:
         pass
@@ -100,12 +100,12 @@ def edit_doctor_profile(request):
         # Password logic
         if new_password or confirm_password:
 
-            # ❌ mismatch
+            #  mismatch
             if new_password != confirm_password:
                 messages.error(request, "Passwords do not match.")
                 return redirect("edit_doctor_profile")
 
-            # ❌ same as current
+            #  same as current
             if user.check_password(new_password):
                 messages.error(
                     request,
@@ -113,7 +113,7 @@ def edit_doctor_profile(request):
                 )
                 return redirect("edit_doctor_profile")
 
-            # ✅ update password
+        
             user.set_password(new_password)
             user.save()
 
